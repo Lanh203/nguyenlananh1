@@ -193,6 +193,7 @@ class StoreManager
             Console.WriteLine("Khong tim thay san pham co ma nay.");
         return product;
     }
+    
 
     // Hien thi toan bo san pham
     public void DisplayAllProducts()
@@ -222,6 +223,20 @@ class StoreManager
         Console.WriteLine($"\nSo dien thoai: {countPhone}");
         Console.WriteLine($"So phu kien: {countAccessory}");
     }
+    //bai4
+    //tim sp theo hang 
+    public List<Product.MobilePhone> SearchPhoneByManufacturer(string manufacture)
+    {
+        var product = products.OfType<Product.MobilePhone>().Where(p => p.Manufacturer == manufacture).ToList();
+        if (product == null)
+            Console.WriteLine("Khong tim thay san pham nay.");
+        return product;
+    }
+    //tim sp theo gia 
+    
+
+
+
 }
 
 //chuong trinh chinh

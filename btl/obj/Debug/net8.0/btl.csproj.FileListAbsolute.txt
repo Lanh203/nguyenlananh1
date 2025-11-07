@@ -12,3 +12,4 @@ C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\refint\btl.dll
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.pdb
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.genruntimeconfig.cache
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\ref\btl.dll
+C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.sourcelink.json

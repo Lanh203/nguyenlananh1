@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("btl")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc90863b3db8d82fae05b11d72d7261d931e4aca")]
 [assembly: System.Reflection.AssemblyProductAttribute("btl")]
 [assembly: System.Reflection.AssemblyTitleAttribute("btl")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
