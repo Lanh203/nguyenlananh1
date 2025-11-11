@@ -233,7 +233,48 @@ class StoreManager
         return product;
     }
     //tim sp theo gia 
-    
+    public List<Product> SearchByPriceRange(decimal minPrice, decimal maxPrice)
+    {
+        var result = products.Where(p => p.salePrice >= minPrice && p.salePrice <= maxPrice).ToList();
+        if (result.Count == 0)
+            Console.WriteLine($"ko co sp trong khoang {minPrice} - {maxPrice}");
+        else
+            result.ForEach(p => { p.DisplayInfo(); Console.WriteLine("======"); });
+        return result;
+    }
+    // tinh gtri hang ton kho 
+   public decimal CalculateTotalInventoryValue()
+    {
+        decimal totalValue = products.Sum(p => p.importPrice * p.stockQuantity);
+        Console.WriteLine($"Tổng giá trị hàng tồn kho: {totalValue}");
+        return totalValue;
+    }
+
+    //tim top sp cao nhat 
+
+
+    //sd thuat toan sap xep bubble sort
+
+    //bai5
+    private List<Invoice> invoices = new List<Invoice>();
+    public void CreateInvoice (Invoice invoice)
+    {
+        foreach (var item in invoice.ProductList)
+        {
+            var product = item.Key;
+            int quantity = item.Value;
+
+            if (product.stockQuantity < quantity)
+                throw new Exception($"Không đủ hàng trong kho cho sản phẩm: {product.productName}");
+            product.stockQuantity -= quantity;
+        }
+
+    }
+
+
+
+
+
 
 
 
