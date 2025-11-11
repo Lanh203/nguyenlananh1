@@ -193,7 +193,7 @@ class StoreManager
             Console.WriteLine("Khong tim thay san pham co ma nay.");
         return product;
     }
-    
+
 
     // Hien thi toan bo san pham
     public void DisplayAllProducts()
@@ -243,7 +243,7 @@ class StoreManager
         return result;
     }
     // tinh gtri hang ton kho 
-   public decimal CalculateTotalInventoryValue()
+    public decimal CalculateTotalInventoryValue()
     {
         decimal totalValue = products.Sum(p => p.importPrice * p.stockQuantity);
         Console.WriteLine($"Tổng giá trị hàng tồn kho: {totalValue}");
@@ -252,12 +252,9 @@ class StoreManager
 
     //tim top sp cao nhat 
 
-
-    //sd thuat toan sap xep bubble sort
-
     //bai5
     private List<Invoice> invoices = new List<Invoice>();
-    public void CreateInvoice (Invoice invoice)
+    public void CreateInvoice(Invoice invoice)
     {
         foreach (var item in invoice.ProductList)
         {
@@ -269,59 +266,197 @@ class StoreManager
             product.stockQuantity -= quantity;
         }
 
+        invoice.CalculateTotalAmount();
+        invoices.Add(invoice);
+        Console.WriteLine("==> Hóa đơn đã được tạo thành công!");
+        invoice.PrintInvoice();
     }
 
+    public void DisplayAllInvoices()
+    {
+        if (invoices.Count == 0)
+        {
+            Console.WriteLine("Chưa có hóa đơn nào được tạo.");
+            return;
+        }
 
+        Console.WriteLine("\n===== DANH SÁCH HÓA ĐƠN =====");
+        foreach (var inv in invoices)
+        {
+            inv.PrintInvoice();
+        }
+    }
 
-
-
-
-
+    public List<Product> GetAllProducts()
+    {
+        return products;
+    }
 
 }
 
-//chuong trinh chinh
+//cau5
+public class Invoice
+{
+    public string InvoiceId { get; set; }
+    public DateTime InvoiceDate { get; set; }
+    public Dictionary<Product, int> ProductList { get; set; }
+    public decimal TotalAmount { get; private set; }
+
+    public Invoice(string invoiceId)
+    {
+        InvoiceId = invoiceId;
+        InvoiceDate = DateTime.Now;
+        ProductList = new Dictionary<Product, int>();
+    }
+
+    public void AddProductToInvoice(Product product, int quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("Số lượng phải lớn hơn 0!");
+
+        if (ProductList.ContainsKey(product))
+            ProductList[product] += quantity;
+        else
+            ProductList.Add(product, quantity);
+    }
+
+    public void CalculateTotalAmount()
+    {
+        TotalAmount = 0;
+        foreach (var item in ProductList)
+        {
+            var product = item.Key;
+            int quantity = item.Value;
+
+            decimal discount = product.CalculateDiscount();
+            decimal subtotal = product.salePrice * quantity * (1 - discount);
+
+            TotalAmount += subtotal;
+        }
+    }
+
+    public void PrintInvoice()
+    {
+        Console.WriteLine("\n========== HÓA ĐƠN BÁN HÀNG ==========");
+        Console.WriteLine($"Mã hóa đơn: {InvoiceId}");
+        Console.WriteLine($"Ngày lập: {InvoiceDate}");
+        Console.WriteLine("-------------------------------------");
+
+        foreach (var item in ProductList)
+        {
+            var product = item.Key;
+            int quantity = item.Value;
+            decimal discount = product.CalculateDiscount();
+            decimal subtotal = product.salePrice * quantity * (1 - discount);
+
+            Console.WriteLine($"{product.productName} | SL: {quantity} | Đơn giá: {product.salePrice} | Giảm giá: {discount * 100}% | Thành tiền: {subtotal}");
+        }
+
+        Console.WriteLine("-------------------------------------");
+        Console.WriteLine($"TỔNG CỘNG: {TotalAmount}");
+        Console.WriteLine("=====================================");
+    }
+}
+
+//cau6
 class Program
 {
     static void Main(string[] args)
     {
-        // hien thi tieng Viet dung trong Console
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        try
+        StoreManager store = new StoreManager();
+
+        var phone1 = new Product.MobilePhone("IP01", "iPhone 15", 20000, 25000, 30, "Apple", 4000, 24);
+        var phone2 = new Product.MobilePhone("SS01", "Samsung S24", 18000, 22000, 20, "Samsung", 5000, 18);
+        var accessory1 = new Product.Accessory("AC01", "Tai nghe Bluetooth", 500, 800, 150, "Headphone", "Nhua");
+
+        store.AddProduct(phone1);
+        store.AddProduct(phone2);
+        store.AddProduct(accessory1);
+
+        int choice;
+        do
         {
-            StoreManager store = new StoreManager();
+            Console.WriteLine("\n========== MOBILE PHONE STORE MANAGEMENT ==========");
+            Console.WriteLine("1. Add new product");
+            Console.WriteLine("2. Remove product");
+            Console.WriteLine("3. Display all products");
+            Console.WriteLine("4. Search product");
+            Console.WriteLine("5. Statistics and reports");
+            Console.WriteLine("6. Create sales invoice");
+            Console.WriteLine("7. Display invoice history");
+            Console.WriteLine("0. Exit");
+            Console.Write("Choose: ");
 
-            // Tao san pham
-            var phone1 = new Product.MobilePhone("IP01", "iPhone 15", 20000, 25000, 30, "Apple", 4000, 24);
-            var phone2 = new Product.MobilePhone("SS01", "Samsung S24", 18000, 22000, 20, "Samsung", 5000, 18);
-            var accessory1 = new Product.Accessory("AC01", "Tai nghe Bluetooth", 500, 800, 150, "Headphone", "Nhua");
+            choice = int.Parse(Console.ReadLine());
 
-            // Them vao danh sach
-            store.AddProduct(phone1);
-            store.AddProduct(phone2);
-            store.AddProduct(accessory1);
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Nhap ma: ");
+                    string id = Console.ReadLine();
+                    Console.Write("Nhap ten: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Nhap gia nhap: ");
+                    decimal im = decimal.Parse(Console.ReadLine());
+                    Console.Write("Nhap gia ban: ");
+                    decimal sa = decimal.Parse(Console.ReadLine());
+                    Console.Write("Nhap ton kho: ");
+                    int stock = int.Parse(Console.ReadLine());
+                    Product p = new Product(id, name, im, sa, stock);
+                    store.AddProduct(p);
+                    break;
 
-            // Hien thi danh sach
-            store.DisplayAllProducts();
-            store.CountProductsByType();
+                case 2:
+                    Console.Write("Nhap ma can xoa: ");
+                    string delId = Console.ReadLine();
+                    store.RemoveProduct(delId);
+                    break;
 
-            // Tim san pham
-            Console.WriteLine("\nTim san pham co ma 'SS01':");
-            var found = store.SearchByProductId("SS01");
-            if (found != null)
-                found.DisplayInfo();
+                case 3:
+                    store.DisplayAllProducts();
+                    break;
 
-            // Xoa san pham
-            Console.WriteLine("\nXoa san pham IP01...");
-            store.RemoveProduct("IP01");
+                case 4:
+                    Console.Write("Nhap ma sp can tim: ");
+                    string findId = Console.ReadLine();
+                    var prod = store.SearchByProductId(findId);
+                    if (prod != null) prod.DisplayInfo();
+                    break;
 
-            // Hien thi lai danh sach
-            store.DisplayAllProducts();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Loi: " + ex.Message);
-        }
+                case 5:
+                    store.CalculateTotalInventoryValue();
+                    store.CountProductsByType();
+                    break;
+
+                case 6:
+                    Console.Write("Nhap ma hoa don: ");
+                    string invId = Console.ReadLine();
+                    Invoice inv = new Invoice(invId);
+
+                    while (true)
+                    {
+                        Console.Write("Nhap ma sp muon them (hoac 'exit' de dung): ");
+                        string pid = Console.ReadLine();
+                        if (pid.ToLower() == "exit") break;
+
+                        var pr = store.SearchByProductId(pid);
+                        if (pr == null) continue;
+
+                        Console.Write("Nhap so luong: ");
+                        int qty = int.Parse(Console.ReadLine());
+                        inv.AddProductToInvoice(pr, qty);
+                    }
+
+                    store.CreateInvoice(inv);
+                    break;
+
+                case 7:
+                    store.DisplayAllInvoices();
+                    break;
+            }
+
+        } while (choice != 0);
     }
 }

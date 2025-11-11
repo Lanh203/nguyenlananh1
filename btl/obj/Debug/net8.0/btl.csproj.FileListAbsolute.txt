@@ -7,9 +7,9 @@ C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.GeneratedMSBuildEditorC
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.AssemblyInfoInputs.cache
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.AssemblyInfo.cs
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.sourcelink.json
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.dll
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\refint\btl.dll
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.pdb
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.genruntimeconfig.cache
 C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\ref\btl.dll
-C:\Users\admin\source\repos\btl\btl\obj\Debug\net8.0\btl.sourcelink.json
